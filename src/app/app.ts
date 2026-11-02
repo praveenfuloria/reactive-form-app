@@ -42,7 +42,10 @@ export class App {
           ],
           asyncValidators: [usernameAvailable(this.usernameService)],
         }),
-        email: this.nonfb.control('', { validators: [Validators.required, Validators.email] }),
+        email: this.nonfb.control('', {
+          validators: [Validators.required, Validators.email],
+          updateOn: 'blur',
+        }),
         password: this.nonfb.control('', {
           validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
         }),
@@ -51,14 +54,19 @@ export class App {
         age: this.nonfb.control(0, {
           validators: [Validators.required, Validators.min(18), Validators.max(120)],
         }),
-        address: this.fb.group({
-          street: this.nonfb.control(''),
-          city: this.nonfb.control(''),
-          state: this.nonfb.control(''),
-          zipCode: this.nonfb.control('', {
-            validators: [Validators.pattern(/^[0-9]+$/)],
-          }),
-        }),
+        address: this.fb.group(
+          {
+            street: this.nonfb.control(''),
+            city: this.nonfb.control(''),
+            state: this.nonfb.control(''),
+            zipCode: this.nonfb.control('', {
+              validators: [Validators.pattern(/^[0-9]+$/)],
+            }),
+          },
+          {
+            updateOn: 'blur',
+          },
+        ),
       },
       { validators: [passwordsMatch] },
     );
