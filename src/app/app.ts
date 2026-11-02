@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { noSpaces, minUppercase } from './validators/validators';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,13 @@ export class App {
   registrationForm = new FormGroup({
     username: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20),
+        Validators.pattern(/^[a-zA-Z0-9]+$/),
+        noSpaces,
+      ],
     }),
     email: new FormControl('', {
       nonNullable: true,
@@ -20,7 +27,7 @@ export class App {
     }),
     password: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(6)],
+      validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
     }),
   });
 

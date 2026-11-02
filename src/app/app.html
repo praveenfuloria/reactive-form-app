@@ -13,6 +13,12 @@
         @if (username.errors?.['minlength'] && username.touched) {
           <span>Username must be at least 3 characters.</span>
         }
+        @if (username.errors?.['pattern'] && username.touched) {
+          <span>Username can only contain letters and numbers.</span>
+        }
+        @if (username.errors?.['noSpaces'] && username.touched) {
+          <span>Username cannot contain spaces.</span>
+        }
       </div>
     </div>
 
@@ -40,6 +46,9 @@
         }
         @if (password.errors?.['minlength'] && password.touched) {
           <span>Password must be at least 6 characters.</span>
+        }
+        @if (password.errors?.['minUppercase'] && password.touched) {
+          <span>Password must contain at least one uppercase letter.</span>
         }
       </div>
     </div>
