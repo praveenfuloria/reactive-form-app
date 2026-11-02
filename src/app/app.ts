@@ -128,4 +128,36 @@ export class App {
   get zipCode(): FormControl {
     return this.address.get('zipCode') as FormControl;
   }
+
+  fillSampleData(): void {
+    //First, add two phone number controls
+    this.addPhoneNumber();
+    this.addPhoneNumber();
+
+    this.registrationForm.setValue({
+      username: 'johndoe',
+      email: 'john@example.com',
+      password: 'Password123',
+      confirmPassword: 'Password123',
+      age: 25,
+      address: {
+        street: '123 Main Street',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '10001',
+      },
+      phoneNumbers: ['1234567890', '9876543210'],
+    });
+  }
+
+  fillAddressOnly(): void {
+    this.registrationForm.patchValue({
+      address: {
+        street: '456 Oak Avenue',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipCode: '90001',
+      },
+    });
+  }
 }
