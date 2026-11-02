@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,18 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class App {
   registrationForm = new FormGroup({
-    username: new FormControl('', { nonNullable: true }),
-    email: new FormControl('', { nonNullable: true }),
-    password: new FormControl('', { nonNullable: true }),
+    username: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
+    }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+    password: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(6)],
+    }),
   });
 
   onSubmit(): void {
@@ -20,8 +29,20 @@ export class App {
       return;
     }
 
-    console.log(this.registrationForm.value); // not showing disable property
-    console.log(this.registrationForm.getRawValue()); // show disabled property value as well
-    console.log(this.registrationForm.get('username')); // show everything
+    console.log(this.registrationForm.value);
+    console.log(this.registrationForm.getRawValue());
+    console.log(this.registrationForm.get('username'));
+  }
+
+  get username(): FormControl {
+    return this.registrationForm.get('username') as FormControl;
+  }
+
+  get email(): FormControl {
+    return this.registrationForm.get('email') as FormControl;
+  }
+
+  get password(): FormControl {
+    return this.registrationForm.get('password') as FormControl;
   }
 }

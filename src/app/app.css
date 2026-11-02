@@ -66,3 +66,13 @@ pre {
   color: #334155;
   overflow-x: auto;
 }
+
+.error-messages {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}
