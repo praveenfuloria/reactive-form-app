@@ -14,4 +14,14 @@ export class App {
     email: new FormControl('', { nonNullable: true }),
     password: new FormControl('', { nonNullable: true }),
   });
+
+  onSubmit(): void {
+    if (this.registrationForm.invalid) {
+      return;
+    }
+
+    console.log(this.registrationForm.value); // not showing disable property
+    console.log(this.registrationForm.getRawValue()); // show disabled property value as well
+    console.log(this.registrationForm.get('username')); // show everything
+  }
 }
