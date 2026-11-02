@@ -185,4 +185,25 @@ export class App {
       },
     });
   }
+
+  resetForm(): void {
+    this.registrationForm.reset();
+  }
+
+  resetToDefaults(): void {
+    this.registrationForm.reset({
+      age: 18,
+      address: {
+        state: 'CA',
+      },
+    });
+  }
+
+  toggleEmail(): void {
+    if (this.email.disabled) {
+      this.email.enable();
+    } else {
+      this.email.disable();
+    }
+  }
 }
