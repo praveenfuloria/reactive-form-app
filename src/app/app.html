@@ -10,6 +10,7 @@
     <div class="form-group">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" formControlName="username" />
+      <span class="char-count">{{ usernameLength }}/20 characters</span>
 
       <div class="error-messages">
         @if (username.errors?.['required'] && username.touched) {

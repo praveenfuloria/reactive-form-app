@@ -22,6 +22,7 @@ import { UsernameService } from './username-service';
 })
 export class App {
   registrationForm: FormGroup;
+  usernameLength: number = 0;
 
   constructor(
     private usernameService: UsernameService,
@@ -61,6 +62,22 @@ export class App {
       },
       { validators: [passwordsMatch] },
     );
+
+    //Subscribe to username value changes
+    this.username.valueChanges.subscribe((value: any) => {
+      console.log('Username value changed: ', value);
+      this.usernameLength = value.length;
+    });
+
+    //Subscribe to entire form value changes
+    this.registrationForm.valueChanges.subscribe((value: any) => {
+      console.log('Form value changed: ', value);
+    });
+
+    //Subscribe to entire form status changes
+    this.registrationForm.statusChanges.subscribe((status: any) => {
+      console.log('Form status changed: ', status);
+    });
   }
 
   onSubmit(): void {
