@@ -1,6 +1,13 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { noSpaces, minUppercase, passwordsMatch } from './validators/validators';
 import { usernameAvailable } from './validators/validators';
@@ -15,11 +22,15 @@ import { UsernameService } from './username-service';
 export class App {
   registrationForm: FormGroup;
 
-  constructor(private usernameService: UsernameService) {
-    this.registrationForm = new FormGroup(
+  constructor(
+    private usernameService: UsernameService,
+    private fb: FormBuilder,
+    private nonfb: NonNullableFormBuilder,
+  ) {
+    this.registrationForm = this.fb.group(
       {
-        username: new FormControl('', {
-          nonNullable: true,
+        //example: ['', Validators.required],
+        username: this.nonfb.control('', {
           validators: [
             Validators.required,
             Validators.minLength(3),
@@ -29,18 +40,11 @@ export class App {
           ],
           asyncValidators: [usernameAvailable(this.usernameService)],
         }),
-        email: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required, Validators.email],
-        }),
-        password: new FormControl('', {
-          nonNullable: true,
+        email: this.nonfb.control('', { validators: [Validators.required, Validators.email] }),
+        password: this.nonfb.control('', {
           validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
         }),
-        confirmPassword: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required],
-        }),
+        confirmPassword: this.nonfb.control('', { validators: [Validators.required] }),
       },
       { validators: [passwordsMatch] },
     );
