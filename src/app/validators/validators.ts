@@ -1,4 +1,6 @@
 import { AbstractControl } from '@angular/forms';
+import { UsernameService } from '../username-service';
+import { map, Observable } from 'rxjs';
 
 export function noSpaces(control: AbstractControl): { [key: string]: boolean } | null {
   if (control.value && control.value.includes(' ')) {
@@ -20,5 +22,17 @@ export function minUppercase(
     }
 
     return null;
+  };
+}
+
+export function usernameAvailable(
+  usernameService: UsernameService,
+): (control: AbstractControl) => Observable<{ [key: string]: boolean } | null> {
+  return (control: AbstractControl): Observable<{ [key: string]: boolean } | null> => {
+    return usernameService.checkAvailability(control.value).pipe(
+      map((response: { available: boolean }) => {
+        return response.available ? null : { usernameTaken: true };
+      }),
+    );
   };
 }

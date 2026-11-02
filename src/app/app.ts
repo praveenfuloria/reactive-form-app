@@ -1,7 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { noSpaces, minUppercase } from './validators/validators';
+import { usernameAvailable } from './validators/validators';
+import { UsernameService } from './username-service';
 
 @Component({
   selector: 'app-root',
@@ -10,26 +13,31 @@ import { noSpaces, minUppercase } from './validators/validators';
   styleUrl: './app.css',
 })
 export class App {
-  registrationForm = new FormGroup({
-    username: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(20),
-        Validators.pattern(/^[a-zA-Z0-9]+$/),
-        noSpaces,
-      ],
-    }),
-    email: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.email],
-    }),
-    password: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
-    }),
-  });
+  registrationForm: FormGroup;
+  private usernameService: UsernameService = inject(UsernameService);
+  constructor() {
+    this.registrationForm = new FormGroup({
+      username: new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+          Validators.pattern(/^[a-zA-Z0-9]+$/),
+          noSpaces,
+        ],
+        asyncValidators: [usernameAvailable(this.usernameService)],
+      }),
+      email: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
+      }),
+    });
+  }
 
   onSubmit(): void {
     if (this.registrationForm.invalid) {

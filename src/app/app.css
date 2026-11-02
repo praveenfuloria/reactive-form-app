@@ -76,3 +76,10 @@ pre {
 input.ng-invalid.ng-touched {
   border-color: #dc2626;
 }
+
+.pending-message {
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}

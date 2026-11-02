@@ -19,7 +19,14 @@
         @if (username.errors?.['noSpaces'] && username.touched) {
           <span>Username cannot contain spaces.</span>
         }
+        @if (username.errors?.['usernameTaken'] && username.touched) {
+          <span>This username is already taken.</span>
+        }
       </div>
+
+      @if (username.pending) {
+        <span class="pending-message">Checking availability...</span>
+      }
     </div>
 
     <div class="form-group">
