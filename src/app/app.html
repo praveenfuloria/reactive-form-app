@@ -79,6 +79,36 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input type="number" id="age" name="age" formControlName="age" />
+
+      <div class="error-messages">
+        @if (age.errors?.['required'] && age.touched) {
+          <span>Please enter a valid age.</span>
+        }
+        @if (age.errors?.['min'] && age.touched) {
+          <span>You must be at least 18 years old.</span>
+        }
+        @if (age.errors?.['max'] && age.touched) {
+          <span>Please enter a valid age. Max is 120.</span>
+        }
+      </div>
+    </div>
+
+    <div class="form-group" class="phone-numbers-section">
+      <h3>Phone Numbers</h3>
+      <div formArrayName="phoneNumbers">
+        @for (control of phoneNumbers.controls; track control) {
+          <div class="phone-number-row">
+            <input type="tel" [formControlName]="$index" />
+            <button type="button" (click)="removePhoneNumber($index)">Remove</button>
+          </div>
+        }
+      </div>
+      <button type="button" (click)="addPhoneNumber()">Add Phone Number</button>
+    </div>
+
     <button type="submit">Register</button>
   </form>
 

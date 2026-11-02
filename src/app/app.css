@@ -83,3 +83,63 @@ input.ng-invalid.ng-touched {
   margin-top: 4px;
   display: block;
 }
+
+.phone-numbers-section {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.phone-numbers-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: #334155;
+}
+
+.phone-number-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.phone-number-row input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.phone-number-row input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.phone-number-row button {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.phone-number-row button:hover {
+  background-color: #fee2e2;
+}
+
+.phone-numbers-section > button {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #3b82f6;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.phone-numbers-section > button:hover {
+  background-color: #dbeafe;
+}

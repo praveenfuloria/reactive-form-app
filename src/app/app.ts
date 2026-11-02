@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -45,6 +46,10 @@ export class App {
           validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
         }),
         confirmPassword: this.nonfb.control('', { validators: [Validators.required] }),
+        phoneNumbers: this.fb.array([]),
+        age: this.nonfb.control(0, {
+          validators: [Validators.required, Validators.min(18), Validators.max(120)],
+        }),
       },
       { validators: [passwordsMatch] },
     );
@@ -74,5 +79,25 @@ export class App {
 
   get confirmPassword(): FormControl {
     return this.registrationForm.get('confirmPassword') as FormControl;
+  }
+
+  get age(): FormControl {
+    return this.registrationForm.get('age') as FormControl;
+  }
+
+  get phoneNumbers(): FormArray {
+    return this.registrationForm.get('phoneNumbers') as FormArray;
+  }
+
+  addPhoneNumber(): void {
+    this.phoneNumbers.push(
+      this.nonfb.control('', {
+        validators: [Validators.required],
+      }),
+    );
+  }
+
+  removePhoneNumber(index: number): void {
+    this.phoneNumbers.removeAt(index);
   }
 }
