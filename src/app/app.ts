@@ -1,8 +1,8 @@
 import { JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { noSpaces, minUppercase } from './validators/validators';
+import { noSpaces, minUppercase, passwordsMatch } from './validators/validators';
 import { usernameAvailable } from './validators/validators';
 import { UsernameService } from './username-service';
 
@@ -14,29 +14,36 @@ import { UsernameService } from './username-service';
 })
 export class App {
   registrationForm: FormGroup;
-  private usernameService: UsernameService = inject(UsernameService);
-  constructor() {
-    this.registrationForm = new FormGroup({
-      username: new FormControl('', {
-        nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(20),
-          Validators.pattern(/^[a-zA-Z0-9]+$/),
-          noSpaces,
-        ],
-        asyncValidators: [usernameAvailable(this.usernameService)],
-      }),
-      email: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required, Validators.email],
-      }),
-      password: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
-      }),
-    });
+
+  constructor(private usernameService: UsernameService) {
+    this.registrationForm = new FormGroup(
+      {
+        username: new FormControl('', {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(20),
+            Validators.pattern(/^[a-zA-Z0-9]+$/),
+            noSpaces,
+          ],
+          asyncValidators: [usernameAvailable(this.usernameService)],
+        }),
+        email: new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required, Validators.email],
+        }),
+        password: new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required, Validators.minLength(6), minUppercase(1)],
+        }),
+        confirmPassword: new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required],
+        }),
+      },
+      { validators: [passwordsMatch] },
+    );
   }
 
   onSubmit(): void {
@@ -59,5 +66,9 @@ export class App {
 
   get password(): FormControl {
     return this.registrationForm.get('password') as FormControl;
+  }
+
+  get confirmPassword(): FormControl {
+    return this.registrationForm.get('confirmPassword') as FormControl;
   }
 }

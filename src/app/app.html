@@ -60,6 +60,25 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="confirm-password">Confirm Password</label>
+      <input
+        type="password"
+        id="confirm-password"
+        name="confirmpassword"
+        formControlName="confirmPassword"
+      />
+
+      <div class="error-messages">
+        @if (confirmPassword.errors?.['required'] && confirmPassword.touched) {
+          <span>Please confirm your password.</span>
+        }
+        @if (registrationForm.errors?.['passwordsMismatch'] && confirmPassword.touched) {
+          <span>Password do not match.</span>
+        }
+      </div>
+    </div>
+
     <button type="submit">Register</button>
   </form>
 

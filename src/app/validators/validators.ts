@@ -36,3 +36,17 @@ export function usernameAvailable(
     );
   };
 }
+
+export function passwordsMatch(control: AbstractControl): { [key: string]: boolean } | null {
+  const password = control.get('password');
+  const confirmPassword = control.get('confirmPassword');
+  if (!password || !confirmPassword) {
+    return null;
+  }
+
+  if (password.value !== confirmPassword.value) {
+    return { passwordsMismatch: true };
+  }
+
+  return null;
+}
